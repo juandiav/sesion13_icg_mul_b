@@ -1,41 +1,65 @@
-<canvas id='tablero' width=500 height=500></canvas>
+<canvas id='canvas' width=800 height=800>
 <script>
-
-function rotacionPunto(cxOb, cyOb, rot){
-
-var ar = [[Math.cos(r), Math.sin(r)],[Math.sin(r), Math.cos(r)]]; 
-
-function rotacionObj(obj,r) {
-var s = []; 
-for (i=0; i<a.length; i+=2){
- var pr rotacionPunto(obj[i], obj[i+1], r); 
-s[i] = pr[i % 2 == 0 ? 0 : 1];
-}
-return s;
+	
+		function Suma(a,b){
+	var c = [];
+	for (i=0; i < a.length; i+=2){
+	c[i]=(a[i]+b[0])
+	c[i+1]=(a[i+1]+b[1])
+    }
+	return c;
 }
 
-function polygon(a, colorBorde, colorRelleno, grosorLinea){
-ctx.beginPath();
-ctx.strokeStyle = colorBorde;
-ctx.fillStyle = colorRelleno;
-ctx.lineWidth = grosorLinea;
-ctx.moveTo(a[0],a[1]);
-for (var i=2; i< a.length; i+=2)
-ctx.lineTo(a[i], a[i+1]);
-ctx.closePath();
-ctx.stroke();
-ctx.fill();
+	function Resta(a,b){
+	var c = [];
+	for (i=0; i < a.length; i+=2){
+	c[i]=(a[i]-b[0])
+	c[i+1]=(a[i+1]-b[1])
+    }
+	return c;
 }
 
-var c = document.getElementById('tablero')
-var ctx = c.getContext('2d')
+	function rotarobj(a,r){
+	var c = [];
+	var m= [Math.cos(r), -Math.sin(r),Math.sin(r), Math.cos(r)]
+	for (i=0; i < a.length; i+=2){
+	c[i]=(a[i]*m[0]+a[i+1]*m[1])
+	c[i+1]=(a[i]*m[2]+a[i+1]*m[3])
+    }
+	return c;
+}
+	function polygon(a, colorBorde, colorRelleno, grosor) { 
+	ctx.beginPath()
+	ctx.strokeStyle = colorBorde
+	ctx.fillStyle = colorRelleno
+	ctx.lineWidth = grosor;
+	ctx.moveTo(a[0],a[1])
+	for (i=2; i < a.length; i+=2)
+	ctx.lineTo(a[i],a[i+1]);
+	ctx.closePath()
+	ctx.stroke()
+	ctx.fill()
+}
 
-var letra_A =[40,40,80,40,120,100,80,100,60,60,50,80,70,80,75,90,45,90,40,100,0,100];
-var vt = [250,350];
-var letraRotada = rotacionObj(letra_A, vt);
 
-polygon(letra_A, 'red', 'yellow',3)
+	var canvas = document.getElementById('canvas')
+	var ctx = canvas.getContext('2d');
+	
+	var LetraV = [40, 40,80,40,140,200,200,40,240,40,140,270];
 
-polygon(letraRotada, 'red', 'yellow',3)
+	var rot = 75;
+
+	var vec_tran = [140,155];
+
+	var LetraV_centr = Resta(LetraV, vec_tran)
+
+	var LetraV_rot_cent = rotarobj(LetraV_centr, rot)
+
+	var LetraV_rot = Suma(LetraV_rot_cent, vec_tran)
+	
+	polygon(LetraV, 'red','yellow', 4)
+	
+	polygon(LetraV_rot, 'red','yellow', 4)
+	
 
 </script>
